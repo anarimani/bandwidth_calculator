@@ -1,23 +1,23 @@
 import socket
 import time
+import os
 
-def send_packets(host, port, packet_size, num_packets):
+def send_file(host, port, file_path, chunk_size=65536):
     try:
         client_socket = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
         
-        packet = b'a' * packet_size  # Create a packet of the specified size
-        
-        start_time = time.time()  # Start timing
-        
-        for _ in range(num_packets):
-            client_socket.sendto(packet, (host, port))
-        
-        end_time = time.time()  # End timing
+        with open(file_path, 'rb') as file:
+            start_time = time.time()  # Start timing
+            
+            while chunk := file.read(chunk_size):
+                client_socket.sendto(chunk, (host, port))
+            
+            end_time = time.time()  # End timing
         
         client_socket.close()
         
         # Calculate bandwidth
-        total_data_sent = packet_size * num_packets  # Total data sent in bytes
+        total_data_sent = os.path.getsize(file_path)  # Total data sent in bytes
         duration = end_time - start_time  # Time in seconds
         bandwidth = (total_data_sent / duration) / (1024 * 1024)  # Bandwidth in MBps
         
@@ -33,10 +33,9 @@ if __name__ == "__main__":
     try:
         host = input("Enter the client IP address: ")
         port = int(input("Enter the client port: "))
-        packet_size = int(input("Enter the packet size in bytes: "))
-        num_packets = int(input("Enter the number of packets to send: "))
+        file_path = input("Enter the file path to send: ")
         
-        send_packets(host, port, packet_size, num_packets)
+        send_file(host, port, file_path)
     except Exception as e:
         print(f"An error occurred during input: {e}")
         input("Press Enter to exit...")  # Keeps the window open
