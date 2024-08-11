@@ -1,10 +1,9 @@
 import socket
 import time
 
-def send_packet(host, port, packet_size, num_packets):
+def send_packets(host, port, packet_size, num_packets):
     try:
         client_socket = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
-        client_socket.setsockopt(socket.SOL_SOCKET, socket.SO_RCVBUF, 65536)  # Increase buffer size
         
         packet = b'a' * packet_size  # Create a packet of the specified size
         
@@ -28,7 +27,7 @@ def send_packet(host, port, packet_size, num_packets):
     except Exception as e:
         print(f"An error occurred: {e}")
     finally:
-        input("Press Enter to exit...")
+        input("Press Enter to exit...")  # Keeps the window open
 
 if __name__ == "__main__":
     try:
@@ -37,7 +36,7 @@ if __name__ == "__main__":
         packet_size = int(input("Enter the packet size in bytes: "))
         num_packets = int(input("Enter the number of packets to send: "))
         
-        send_packet(host, port, packet_size, num_packets)
+        send_packets(host, port, packet_size, num_packets)
     except Exception as e:
         print(f"An error occurred during input: {e}")
-        input("Press Enter to exit...")
+        input("Press Enter to exit...")  # Keeps the window open
