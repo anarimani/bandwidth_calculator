@@ -9,10 +9,10 @@ def receive_packets(port):
     while True:
         data, addr = server_socket.recvfrom(65535)
         print(f'Received packet of size {len(data)} bytes from {addr}')
-        
-if __name__ == "__main__":
-    PORT = 12345  # The port on which the server will send packets
-    
-    receive_packets(PORT)
 
-    input("Press Enter to exit...")
+if __name__ == "__main__":
+    port = int(input("Enter the port to listen on: "))
+    
+    receive_packets(port)
+    
+    input("Press Enter to exit...")  # Keeps the window open

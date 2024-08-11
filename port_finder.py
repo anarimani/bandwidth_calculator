@@ -8,10 +8,12 @@ def check_port(port):
         except OSError:
             return False
 
-port = 12345  # Replace with your preferred port
-if check_port(port):
-    print(f"Port {port} is available.")
-else:
-    print(f"Port {port} is in use.")
-
-input("Press Enter to exit...")
+if __name__ == "__main__":
+    port = int(input("Enter the port number to check: "))
+    
+    if check_port(port):
+        print(f"Port {port} is available.")
+    else:
+        print(f"Port {port} is in use.")
+    
+    input("Press Enter to exit...")  # Keeps the window open
